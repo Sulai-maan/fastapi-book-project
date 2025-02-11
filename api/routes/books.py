@@ -1,4 +1,4 @@
-from typing import OrderedDict, Annotated
+from typing import OrderedDict
 
 from fastapi import APIRouter, Path, status
 from fastapi.responses import JSONResponse
@@ -49,13 +49,18 @@ async def get_books() -> OrderedDict[int, Book]:
 
 @router.get("/{book_id}", response_model=Book, status_code=status.HTTP_200_OK)
 async def get_book(
-    book_id: Annotated[int, Path(gt=0)]) -> Book:
-    book = db.get_book(book_id) 
-    if not book:
+    book_id) -> Book:
+    try:
+        book_id = int(book_id)
+        book = db.get_book(book_id)
+        if not book:
+            raise ValueError
+    except:
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
-            content=None
+            content={"detail" : "Book not found"}
         )
+     
     return book 
 
 @router.put("/{book_id}", response_model=Book, status_code=status.HTTP_200_OK)
