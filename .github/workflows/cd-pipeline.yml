@@ -33,24 +33,24 @@ jobs:
         run: |
           gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev
 
-      - name: Build and Push FastAPI Container
+      - name: Build, push, and trigger redeployment of FastAPI container
         run: |
           docker build -t ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/cloud-run-source-deploy/${{ vars.SERVICE_NAME }}:${{ github.sha }} .
           docker push ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/cloud-run-source-deploy/${{ vars.SERVICE_NAME }}:${{ github.sha }}
 
-      - name: Prepare new service ocnfig file
-        run: |
-          envsubst < service-yaml/${{ vars.SERVICE_NAME }}.yaml > processed-config.yaml
-        env:
-          SERVICE_NAME: ${{ vars.SERVICE_NAME }}
-          SERVICE_NAMESPACE: ${{ vars.SERVICE_NAMESPACE }}
-          REGION: ${{ vars.REGION }}
-          PROJECT_ID: ${{ vars.PROJECT_ID }}
-          GITHUB_SHA: ${{ github.sha }}
+      # - name: Prepare new service config file
+      #   run: |
+      #     envsubst < service-yaml/${{ vars.SERVICE_NAME }}.yaml > processed-config.yaml
+      #   env:
+      #     SERVICE_NAME: ${{ vars.SERVICE_NAME }}
+      #     SERVICE_NAMESPACE: ${{ vars.SERVICE_NAMESPACE }}
+      #     REGION: ${{ vars.REGION }}
+      #     PROJECT_ID: ${{ vars.PROJECT_ID }}
+      #     GITHUB_SHA: ${{ github.sha }}
 
-      - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: ${{ vars.SERVICE_NAME }}
-          region: ${{ vars.REGION }}
-          metadata: processed-config.yaml
+      # - name: Deploy to Cloud Run
+      #   uses: google-github-actions/deploy-cloudrun@v2
+      #   with:
+      #     service: ${{ vars.SERVICE_NAME }}
+      #     region: ${{ vars.REGION }}
+      #     metadata: processed-config.yaml
