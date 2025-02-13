@@ -1,7 +1,9 @@
 # service-yaml/fastapi-book-project.yaml
-name: ${SERVICE_NAME}
-namespace: ${SERVICE_NAMESPACE}
-
+apiVerson: serving.serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ${SERVICE_NAME}
+  namespace: ${SERVICE_NAMESPACE}
 spec:
   template:
     metadata: {}
