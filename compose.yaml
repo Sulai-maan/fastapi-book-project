@@ -2,9 +2,9 @@ services:
   web-app:
     image: sulaymaan/fastapi-book-project
     expose:
-      - 8000
+      - 8080
     environment:
-      - PORT=8000
+      - PORT=8080
     restart: unless-stopped  
 
   nginx-proxy:
