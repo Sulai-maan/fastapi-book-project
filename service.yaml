@@ -4,6 +4,14 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: fastapi-book-app
+  labels:
+    cloud.googleapis.com/location: "REGION"
+  annotations:
+    # Required to use Cloud Run multi-containers (preview feature)
+    run.googleapis.com/launch-stage: BETA
+    run.googleapis.com/description: sample tutorial service
+    # Externally available
+    run.googleapis.com/ingress: all
   namespace: hng13-backend-projects
 spec:
   template:
@@ -13,7 +21,7 @@ spec:
         # Below requires hello container to spin up before nginx container,
         # which depends on the hello container.
         # https://cloud.google.com/run/docs/configuring/containers#container-ordering
-        run.googleapis.com/container-dependencies: "{nginx: [book-api]}"
+        run.googleapis.com/container-dependencies: "{nginx: [web-app]}"
 
     spec:
       containers:
@@ -45,11 +53,11 @@ spec:
             tcpSocket:
               port: 8080
         
-        - image: docker.io/sulaymaan/fastapi-book
-          name: book-api
+        - image: docker.io/sulaymaan/fastapi-book-project
+          name: web-app
           env:
             - name: PORT
-              value: "8888"
+              value: "8080"
           resources:
             limits:
               cpu: 1000m
@@ -59,12 +67,12 @@ spec:
             periodSeconds: 240
             failureThreshold: 1
             tcpSocket:
-              port: 8888
+              port: 8080
     
       volumes:
       - name: nginx-conf-secret
         secret:
-          secretName: nginx_config
+          secretName: nginx_config1
           items:
             - key: latest
-              path: nginx.conf
+              path: default.conf
