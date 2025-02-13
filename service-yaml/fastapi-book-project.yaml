@@ -1,5 +1,5 @@
 # service-yaml/fastapi-book-project.yaml
-apiVerson: serving.serving.knative.dev/v1
+apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: ${SERVICE_NAME}
