@@ -36,6 +36,7 @@ jobs:
       - name: Build and Push FastAPI Container
         run: |
           docker build -t ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/cloud-run-source-deploy/${{ vars.SERVICE_NAME }}:${{ github.sha }} .
+          docker push ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/cloud-run-source-deploy/${{ vars.SERVICE_NAME }}:${{ github.sha }}
 
       - name: Prepare new service ocnfig file
         run: |
