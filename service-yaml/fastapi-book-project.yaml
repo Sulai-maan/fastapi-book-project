@@ -6,7 +6,7 @@ metadata:
   namespace: ${SERVICE_NAMESPACE}
 spec:
   template:
-    metadata: {}
+    metadata:
       annotations:
         run.googleapis.com/no-replace-header: "Server"
     spec:
