@@ -1,9 +1,7 @@
 name: CD for bookapi
 
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - main
 
@@ -39,52 +37,3 @@ jobs:
             git clone https://github.com/Sulai-maan/fastapi-book-project.git
             cd ${{ vars.SERVICE_NAME }}
             docker compose up -d
-
-          
-      # - name: SSH into server
-      #   uses: google-github-actions/ssh-compute@v1
-      #   with:
-      #     instance_name: ${{ vars.GCP_SERVER_NAME }}
-      #     user: ${{ vars.SSH_USER }}
-      #     zone: ${{ vars.REGION }}
-      #     ssh_private_key: ${{ secrets.GCP_SSH_KEYS }}
-      #     command: |
-      #       cd ${{ vars.SERVICE_NAME }}
-      #       docker compose down
-      #       cd ../
-      #       git clone https://github.com/Sulai-maan/fastapi-book-project.git
-      #       cd ${{ vars.SERVICE_NAME }}
-      #       docker compose up -d
-          
-
-        
-      # - name: Setup Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v2
-      #   with:
-      #     version: '>= 363.0.0'
-
-      # - name: Configure Docker for Artifact Registry
-      #   run: |
-      #     gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev
-
-      # - name: Build, push, and trigger redeployment of FastAPI container
-      #   run: |
-      #     docker build -t ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/cloud-run-source-deploy/${{ vars.SERVICE_NAME }}:${{ github.sha }} .
-      #     docker push ${{ vars.REGION }}-docker.pkg.dev/${{ vars.PROJECT_ID }}/cloud-run-source-deploy/${{ vars.SERVICE_NAME }}:${{ github.sha }}
-
-      # - name: Prepare new service config file
-      #   run: |
-      #     envsubst < service-yaml/${{ vars.SERVICE_NAME }}.yaml > processed-config.yaml
-      #   env:
-      #     SERVICE_NAME: ${{ vars.SERVICE_NAME }}
-      #     SERVICE_NAMESPACE: ${{ vars.SERVICE_NAMESPACE }}
-      #     REGION: ${{ vars.REGION }}
-      #     PROJECT_ID: ${{ vars.PROJECT_ID }}
-      #     GITHUB_SHA: ${{ github.sha }}
-
-      # - name: Deploy to Cloud Run
-      #   uses: google-github-actions/deploy-cloudrun@v2
-      #   with:
-      #     service: ${{ vars.SERVICE_NAME }}
-      #     region: ${{ vars.REGION }}
-      #     metadata: processed-config.yaml
