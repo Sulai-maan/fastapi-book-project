@@ -24,20 +24,35 @@ jobs:
         with:
           credentials_json: ${{ secrets.GCP_CREDENTIALS }}
 
-      - name: SSH into server
-        uses: google-github-actions/ssh-compute@v1
+      - name: SSH into machine 
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          instance_name: ${{ vars.GCP_SERVER_NAME }}
-          user: ${{ vars.SSH_USER }}
-          zone: ${{ vars.REGION }}
-          ssh_private_key: ${{ secrets.GCP_SSH_KEYS }}
-          command: |
+          host: ${{ secrets.GCP_SERVER_IP }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.GCP_SSH_KEYS }}
+          script: |
             cd ${{ vars.SERVICE_NAME }}
             docker compose down
             cd ../
             git clone https://github.com/Sulai-maan/fastapi-book-project.git
             cd ${{ vars.SERVICE_NAME }}
             docker compose up -d
+
+          
+      # - name: SSH into server
+      #   uses: google-github-actions/ssh-compute@v1
+      #   with:
+      #     instance_name: ${{ vars.GCP_SERVER_NAME }}
+      #     user: ${{ vars.SSH_USER }}
+      #     zone: ${{ vars.REGION }}
+      #     ssh_private_key: ${{ secrets.GCP_SSH_KEYS }}
+      #     command: |
+      #       cd ${{ vars.SERVICE_NAME }}
+      #       docker compose down
+      #       cd ../
+      #       git clone https://github.com/Sulai-maan/fastapi-book-project.git
+      #       cd ${{ vars.SERVICE_NAME }}
+      #       docker compose up -d
           
 
         
