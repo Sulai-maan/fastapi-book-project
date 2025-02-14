@@ -9,6 +9,7 @@ on:
 
 jobs:
   deploy:
+    name: Deploy application
     permissions:
       contents: read
       id-token: write
