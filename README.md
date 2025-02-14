@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a RESTful API built with FastAPI for managing a book collection. It provides comprehensive CRUD (Create, Read, Update, Delete) operations for books with proper error handling, input validation, and documentation.
+This project is a RESTful API built with FastAPI for managing a book collection. It provides comprehensive CRUD (Create, Read, Update, Delete) operations for books with proper error handling, input validation, and documentation. In the 'deploying behind a proxy' section, I explained how I went about deploying the app behind a nginx server, setting up continuous integration and continuous deployment workflows using github actions. 
 
 ## Features
 
@@ -128,6 +128,14 @@ The API includes proper error handling for:
 - Invalid book IDs
 - Invalid genre types
 - Malformed requests
+
+## Deploying behind a proxy server
+
+Here's how to deploy the app behind an nginx reverse proxy server on Google Cloud Run:
+
+First, prepare your GCP account by setting up the following 
+
+1. A project
 
 ## Contributing
 
