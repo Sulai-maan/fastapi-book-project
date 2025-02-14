@@ -29,3 +29,7 @@ async def stage2():
 @app.get("/stage2")
 async def stage2():
     return {"message": "welcome to stage 2"}
+
+@app.get("/stage2")
+async def stage2():
+    return {"message": "welcome to stage 2"}
