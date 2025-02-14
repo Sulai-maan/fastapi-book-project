@@ -34,6 +34,7 @@ jobs:
             cd ${{ vars.SERVICE_NAME }}
             docker compose down
             cd ../
+            rm -rf ${{ vars.SERVICE_NAME }}
             git clone https://github.com/Sulai-maan/fastapi-book-project.git
             cd ${{ vars.SERVICE_NAME }}
             docker compose up -d
